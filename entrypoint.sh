@@ -179,7 +179,7 @@ if [ -n "$PLUGINS" ]; then
       AUTOSAVE_TARGET_TAG_VALUE=${AUTOSAVE_TARGET_TAG:-""}
       
       # Always set autosave to false as required
-      AUTOSAVE_ENABLED="true"
+      AUTOSAVE_ENABLED=true
       
       echo "--- Creating cloud-saves plugin configuration file ---"
       CONFIG_JSON_FILE="$plugin_dir/config.json"
@@ -258,21 +258,6 @@ install_extensions() {
     echo "--- Waiting 40 seconds before installing extensions... ---"
     sleep 40
 
-    
-    # 注入本地 TavernHelper
-    TAVERN_HELPER_DIR="$APP_HOME/extensions/tavern-helper"
-    if [ -d "$TAVERN_HELPER_DIR" ]; then
-        if [ "$INSTALL_FOR_ALL_USERS" = "true" ]; then
-            EXTENSIONS_DIR="./public/scripts/extensions/third-party"
-        else
-            EXTENSIONS_DIR="./data/default-user/extensions"
-        fi
-        mkdir -p "$EXTENSIONS_DIR/tavern-helper"
-        cp -r "$TAVERN_HELPER_DIR/"* "$EXTENSIONS_DIR/tavern-helper/"
-        chown -R node:node "$EXTENSIONS_DIR/tavern-helper"
-        echo "--- TavernHelper installed ---"
-    fi
-    
     echo "--- Checking for EXTENSIONS environment variable ---"
     if [ -n "$EXTENSIONS" ]; then
         echo "*** Installing Extensions specified in EXTENSIONS environment variable: $EXTENSIONS ***"
