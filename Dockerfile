@@ -92,14 +92,6 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 # Make the new entrypoint executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# --- BEGIN: 自动注入 TavernHelper 扩展 ---
-RUN mkdir -p extensions/tavern-helper && \
-    echo '{ "display_name": "TavernHelper 注入器", "loading_order": 1, "js": "index.js", "css": "", "author": "AutoDocker", "version": "1.0.0", "description": "在浏览器中注入 window.TavernHelper 对象，提供全局方法接口。" }' \
-    > extensions/tavern-helper/manifest.json && \
-    echo '(function(){if(!window.TavernHelper){window.TavernHelper={};} window.TavernHelper.sayHello=()=>console.log("TavernHelper 注入成功！"); window.TavernHelper.version="1.0.0"; console.log("TavernHelper 扩展已加载");})();' \
-    > extensions/tavern-helper/index.js
-# --- END: TavernHelper 注入 ---
-
 EXPOSE 8000
 
 # Entrypoint: Execute the self-contained startup script
