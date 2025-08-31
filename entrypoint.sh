@@ -179,7 +179,7 @@ if [ -n "$PLUGINS" ]; then
       AUTOSAVE_TARGET_TAG_VALUE=${AUTOSAVE_TARGET_TAG:-""}
       
       # Always set autosave to false as required
-      AUTOSAVE_ENABLED="false"
+      AUTOSAVE_ENABLED="true"
       
       echo "--- Creating cloud-saves plugin configuration file ---"
       CONFIG_JSON_FILE="$plugin_dir/config.json"
