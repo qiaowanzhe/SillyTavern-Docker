@@ -23,6 +23,10 @@ ENV APP_HOME=${APP_HOME}
 ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
+# --- BEGIN: Install required tools ---
+RUN apt-get update && apt-get install -y git curl rsync && rm -rf /var/lib/apt/lists/*
+# --- END: Install required tools ---
+
 # --- BEGIN: Clone SillyTavern Core (Latest Release, safe) ---
 RUN LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest \
       | grep '"tag_name"' \
