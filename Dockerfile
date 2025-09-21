@@ -23,11 +23,12 @@ ENV APP_HOME=${APP_HOME}
 ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
-# --- BEGIN: Install required tools ---
-RUN apt-get update && apt-get install -y git curl rsync && rm -rf /var/lib/apt/lists/*
+
+# --- BEGIN: Install required tools (Alpine compatible) ---
+# 已经在前面安装 git, curl, rsync, 这里不再重复
 # --- END: Install required tools ---
 
-# --- BEGIN: Clone SillyTavern Core (Latest Release, safe) ---
+# --- BEGIN: Clone SillyTavern Core (Latest Release, safe, Alpine) ---
 RUN LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest \
       | grep '"tag_name"' \
       | cut -d '"' -f 4) && \
@@ -36,7 +37,8 @@ RUN LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/re
     rsync -a --exclude 'data' /tmp/sillytavern/ ./ && \
     rm -rf /tmp/sillytavern && \
     echo "*** SillyTavern $LATEST_TAG updated safely (data folder preserved). ***"
-# --- END: Clone SillyTavern Core (Latest Release, safe) ---
+# --- END: Clone SillyTavern Core (Latest Release, safe, Alpine) ---
+
 
 
 # --- BEGIN: Remove root .gitignore if exists ---
