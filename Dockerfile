@@ -24,21 +24,17 @@ ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
 
-# --- BEGIN: Install required tools (Alpine compatible) ---
-# 已经在前面安装 git, curl, rsync, 这里不再重复
-# --- END: Install required tools ---
-
-# --- BEGIN: Clone SillyTavern Core (Latest Release, safe, Alpine) ---
-RUN LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest \
-      | grep '"tag_name"' \
-      | cut -d '"' -f 4) && \
-    echo "*** Latest Release: $LATEST_TAG ***" && \
-    git clone --depth 1 --branch $LATEST_TAG https://github.com/SillyTavern/SillyTavern.git /tmp/sillytavern && \
-    rsync -a --exclude 'data' /tmp/sillytavern/ ./ && \
-    rm -rf /tmp/sillytavern && \
-    echo "*** SillyTavern $LATEST_TAG updated safely (data folder preserved). ***"
-# --- END: Clone SillyTavern Core (Latest Release, safe, Alpine) ---
-
+# --- BEGIN: Clone SillyTavern Core (Latest Release, Alpine safe) ---
+RUN apk add --no-cache bash git curl rsync && \
+    bash -c '\
+    LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep "\"tag_name\"" | cut -d "\"" -f 4); \
+    if [ -z "$LATEST_TAG" ]; then echo "Failed to get latest tag"; exit 1; fi; \
+    echo "*** Latest Release: $LATEST_TAG ***"; \
+    git clone --depth 1 --branch $LATEST_TAG https://github.com/SillyTavern/SillyTavern.git /tmp/sillytavern; \
+    rsync -a --exclude "data" /tmp/sillytavern/ ./; \
+    rm -rf /tmp/sillytavern; \
+    echo "*** SillyTavern $LATEST_TAG updated safely (data folder preserved). ***"'
+# --- END: Clone SillyTavern Core ---
 
 
 # --- BEGIN: Remove root .gitignore if exists ---
