@@ -24,18 +24,12 @@ ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
 
-# --- BEGIN: Clone SillyTavern Core (Latest Release, Alpine safe) ---
-RUN apk add --no-cache bash git curl rsync && \
-    bash -c '\
-    LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep "\"tag_name\"" | cut -d "\"" -f 4); \
-    if [ -z "$LATEST_TAG" ]; then echo "Failed to get latest tag"; exit 1; fi; \
-    echo "*** Latest Release: $LATEST_TAG ***"; \
-    git clone --depth 1 --branch $LATEST_TAG https://github.com/SillyTavern/SillyTavern.git /tmp/sillytavern; \
-    rsync -a --exclude "data" /tmp/sillytavern/ ./; \
-    rm -rf /tmp/sillytavern; \
-    echo "*** SillyTavern $LATEST_TAG updated safely (data folder preserved). ***"'
+# --- BEGIN: Clone SillyTavern Core from GitHub (release branch) --- 
+RUN \ echo "*** Cloning SillyTavern Core from GitHub (release branch) ***" && \ 
+# Clone the specific branch into the current directory 
+git clone -b release --depth 1 https://github.com/SillyTavern/SillyTavern.git . && \ 
+echo "*** Cloning complete. ***" 
 # --- END: Clone SillyTavern Core ---
-
 
 # --- BEGIN: Remove root .gitignore if exists ---
 RUN \
