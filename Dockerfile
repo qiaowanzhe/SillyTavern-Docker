@@ -28,12 +28,12 @@ RUN LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/re
       | grep '"tag_name"' \
       | cut -d '"' -f 4) && \
     echo "*** Latest Release: $LATEST_TAG ***" && \
-    git clone https://github.com/SillyTavern/SillyTavern.git /tmp/sillytavern && \
-    cd /tmp/sillytavern && \
-    git checkout tags/$LATEST_TAG -b build-$LATEST_TAG && \
-    rsync -a --exclude='data' /tmp/sillytavern/ /home/node/app/ && \
-    echo "*** SillyTavern $LATEST_TAG cloned successfully. ***"
+    git clone --depth 1 --branch $LATEST_TAG https://github.com/SillyTavern/SillyTavern.git /tmp/sillytavern && \
+    rsync -a --exclude 'data' /tmp/sillytavern/ ./ && \
+    rm -rf /tmp/sillytavern && \
+    echo "*** SillyTavern $LATEST_TAG updated safely (data folder preserved). ***"
 # --- END: Clone SillyTavern Core (Latest Release, safe) ---
+
 
 # --- BEGIN: Remove root .gitignore if exists ---
 RUN \
