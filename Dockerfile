@@ -24,11 +24,12 @@ ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
 
-# --- BEGIN: Clone SillyTavern Core from GitHub (release branch) --- 
-RUN \ echo "*** Cloning SillyTavern Core from GitHub (release branch) ***" && \ 
-# Clone the specific branch into the current directory 
-git clone -b release --depth 1 https://github.com/SillyTavern/SillyTavern.git . && \ 
-echo "*** Cloning complete. ***" 
+# --- BEGIN: Clone SillyTavern Core from GitHub (release branch) ---
+RUN \
+  echo "*** Cloning SillyTavern Core from GitHub (release branch) ***" && \
+  # Clone the specific branch into the current directory
+  git clone -b release --depth 1 https://github.com/SillyTavern/SillyTavern.git . && \
+  echo "*** Cloning complete. ***"
 # --- END: Clone SillyTavern Core ---
 
 # --- BEGIN: Remove root .gitignore if exists ---
