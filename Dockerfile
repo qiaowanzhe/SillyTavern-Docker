@@ -24,13 +24,12 @@ ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
 # --- BEGIN: Clone latest SillyTavern Release ---
-ARG CACHE_BUST=1
-
 RUN set -eux; \
-  echo "Cache bust: $CACHE_BUST"; \
-  rm -rf ./* .git || true; \
-  git clone --depth 1 --branch release https://github.com/SillyTavern/SillyTavern.git .; \
-  git log -1 --oneline
+  rm -rf ${APP_HOME:?}/*; \
+  git clone --depth 1 --branch release https://github.com/SillyTavern/SillyTavern.git ${APP_HOME}; \
+  cd ${APP_HOME}; \
+  git log -1 --oneline; \
+  node -e "console.log(require('./package.json').version)"
 # --- END ---
 
 # --- BEGIN: Remove root .gitignore if exists ---
