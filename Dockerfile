@@ -24,10 +24,13 @@ ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
 # --- BEGIN: Clone latest SillyTavern Release ---
+ARG CACHE_BUST=1
+
 RUN set -eux; \
-  echo "Cloning latest SillyTavern (release branch)"; \
+  echo "Cache bust: $CACHE_BUST"; \
+  rm -rf ./* .git || true; \
   git clone --depth 1 --branch release https://github.com/SillyTavern/SillyTavern.git .; \
-  echo "Done"
+  git log -1 --oneline
 # --- END ---
 
 # --- BEGIN: Remove root .gitignore if exists ---
