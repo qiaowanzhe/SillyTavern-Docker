@@ -25,12 +25,9 @@ ENV PASSWORD=${PASSWORD}
 
 # --- BEGIN: Clone latest SillyTavern Release ---
 RUN set -eux; \
-  echo "*** Fetching latest SillyTavern release version ***"; \
-  LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep tag_name | cut -d '"' -f 4); \
-  echo "Latest version: ${LATEST_TAG}"; \
-  echo "*** Cloning SillyTavern ${LATEST_TAG} ***"; \
-  git clone --depth 1 --branch ${LATEST_TAG} https://github.com/SillyTavern/SillyTavern.git .; \
-  echo "*** Clone complete ***"
+  echo "Cloning latest SillyTavern (release branch)"; \
+  git clone --depth 1 --branch release https://github.com/SillyTavern/SillyTavern.git .; \
+  echo "Done"
 # --- END ---
 
 # --- BEGIN: Remove root .gitignore if exists ---
