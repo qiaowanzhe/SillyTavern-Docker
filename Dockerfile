@@ -28,7 +28,7 @@ ENV PASSWORD=${PASSWORD}
 RUN \
   echo "*** Cloning SillyTavern Core from GitHub (release branch) ***" && \
   # Clone the specific branch into the current directory
-  git clone --depth 1 --branch v1.16.0 https://github.com/SillyTavern/SillyTavern.git . && \
+  git clone -b release --depth 1 https://github.com/SillyTavern/SillyTavern.git . && \
   echo "*** Cloning complete. ***"
 # --- END: Clone SillyTavern Core ---
 
