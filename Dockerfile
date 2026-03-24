@@ -23,13 +23,15 @@ ENV APP_HOME=${APP_HOME}
 ENV USERNAME=${USERNAME}
 ENV PASSWORD=${PASSWORD}
 
-# --- BEGIN: Clone SillyTavern Core from GitHub (release branch) ---
-RUN \
-  echo "*** Cloning SillyTavern Core from GitHub (release branch) ***" && \
-  # Clone the specific branch into the current directory
-  git clone -b release --depth 1 https://github.com/SillyTavern/SillyTavern.git . && \
-  echo "*** Cloning complete. ***"
-# --- END: Clone SillyTavern Core ---
+# --- BEGIN: Clone latest SillyTavern Release ---
+RUN set -eux; \
+  echo "*** Fetching latest SillyTavern release version ***"; \
+  LATEST_TAG=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep tag_name | cut -d '"' -f 4); \
+  echo "Latest version: ${LATEST_TAG}"; \
+  echo "*** Cloning SillyTavern ${LATEST_TAG} ***"; \
+  git clone --depth 1 --branch ${LATEST_TAG} https://github.com/SillyTavern/SillyTavern.git .; \
+  echo "*** Clone complete ***"
+# --- END ---
 
 # --- BEGIN: Remove root .gitignore if exists ---
 RUN \
