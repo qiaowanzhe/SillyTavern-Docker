@@ -121,13 +121,11 @@ fi
 
 # --- BEGIN: Update SillyTavern Core at Runtime ---
 echo '--- Attempting to update SillyTavern Core from GitHub (staging branch) ---'
-if [ -d ".git" ] && [ "$(git rev-parse --abbrev-ref HEAD)" = "staging" ]; then
-  echo 'Existing staging branch found. Resetting and pulling latest changes...'
+if [ -d ".git" ]; then
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  echo "--- Updating branch: $CURRENT_BRANCH ---"
   git reset --hard HEAD && \
-  git pull origin staging || echo 'WARN: git pull failed, continuing with code from build time.'
-  echo '--- SillyTavern Core update check finished. ---'
-else
-  echo 'WARN: .git directory not found or not on staging branch. Skipping runtime update. Code from build time will be used.'
+  git pull origin "$CURRENT_BRANCH" || echo 'WARN: git pull failed'
 fi
 # --- END: Update SillyTavern Core at Runtime ---
 
